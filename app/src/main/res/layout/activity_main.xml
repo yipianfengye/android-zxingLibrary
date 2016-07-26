@@ -8,6 +8,7 @@
     tools:context="com.uuch.android_zxinglibrary.MainActivity">
 
     <TextView
+        android:id="@+id/texttitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
