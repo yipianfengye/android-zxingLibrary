@@ -39,6 +39,5 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "result:" + result, Toast.LENGTH_LONG).show();
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
