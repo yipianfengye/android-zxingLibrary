@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         button3 = (Button) findViewById(R.id.button3);
 
         /**
-         * 打开二维码扫描界面
+         * 打开默认二维码扫描界面
          */
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
