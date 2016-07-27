@@ -1,6 +1,7 @@
 package com.uuzuche.lib_zxing.activity;
 
 import android.graphics.Bitmap;
+import android.os.Bundle;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -24,6 +25,8 @@ public class CodeUtils {
     public static final String RESULT_STRING = "result_string";
     public static final int RESULT_SUCCESS = 1;
     public static final int RESULT_FAILED = 2;
+
+    public static final String LAYOUT_ID = "layout_id";
 
     public static void analyzeBitmap(Bitmap mBitmap, AnalyzeCallback analyzeCallback) {
 
@@ -75,5 +78,21 @@ public class CodeUtils {
         public void onAnalyzeSuccess(Bitmap mBitmap, String result);
 
         public void onAnalyzeFailed();
+    }
+
+
+    /**
+     * 为CaptureFragment设置layout参数
+     * @param captureFragment
+     * @param layoutId
+     */
+    public static void setFragmentArgs(CaptureFragment captureFragment, int layoutId) {
+        if (captureFragment == null || layoutId == -1) {
+            return;
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(LAYOUT_ID, layoutId);
+        captureFragment.setArguments(bundle);
     }
 }

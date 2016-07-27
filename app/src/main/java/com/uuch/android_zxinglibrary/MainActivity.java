@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     public Button button1 = null;
     public Button button2 = null;
+    public Button button3 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
+        button3 = (Button) findViewById(R.id.button3);
 
         /**
          * 打开二维码扫描界面
@@ -74,6 +76,17 @@ public class MainActivity extends AppCompatActivity {
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
                 startActivityForResult(intent, REQUEST_IMAGE);
+            }
+        });
+
+        /**
+         * 定制化显示扫描界面
+         */
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
     }

@@ -18,9 +18,11 @@ package com.uuzuche.lib_zxing.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -67,6 +69,41 @@ public final class ViewfinderView extends View {
         resultPointColor = resources.getColor(R.color.possible_result_points);
         scannerAlpha = 0;
         possibleResultPoints = new HashSet<ResultPoint>(5);
+
+        initInnerRect(context, attrs);
+    }
+
+    /**
+     * 初始化内部框的大小
+     * @param context
+     * @param attrs
+     */
+    private void initInnerRect(Context context, AttributeSet attrs) {
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.innerrect);
+
+        // 距离顶部
+        int innerMarginTop = ta.getInt(R.styleable.innerrect_inner_margintop, -1);
+        if (innerMarginTop != -1) {
+            CameraManager.FRAME_MARGINTOP = dip2px(context, innerMarginTop);
+        }
+
+        // 宽度
+        int innerrectWidth = ta.getInt(R.styleable.innerrect_inner_width, -1);
+        if (innerrectWidth != -1) {
+            CameraManager.FRAME_WIDTH = dip2px(context, innerrectWidth);
+        } else {
+            CameraManager.FRAME_WIDTH = dip2px(context, 210);
+        }
+
+        // 高度
+        int innerrectHeight = ta.getInt(R.styleable.innerrect_inner_height, -1);
+        if (innerrectHeight != -1) {
+            CameraManager.FRAME_HEIGHT = dip2px(context, innerrectHeight);
+        } else {
+            CameraManager.FRAME_HEIGHT = dip2px(context, 210);
+        }
+
+        ta.recycle();
     }
 
     @Override
@@ -90,12 +127,8 @@ public final class ViewfinderView extends View {
             paint.setAlpha(OPAQUE);
             canvas.drawBitmap(resultBitmap, frame.left, frame.top, paint);
         } else {
-            // Draw a two pixel solid black border inside the framing rect
-            paint.setColor(frameColor);
-            canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
-            canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
-            canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
-            canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
+
+            drawInner(canvas, frame);
 
             // Draw a red "laser scanner" line through the middle to show decoding is active
             /*paint.setColor(laserColor);
@@ -131,6 +164,17 @@ public final class ViewfinderView extends View {
         }
     }
 
+
+    private void drawInner(Canvas canvas,Rect frame) {
+        // Draw a two pixel solid black border inside the framing rect
+        paint.setColor(frameColor);
+        canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
+        canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
+        canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
+        canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
+    }
+
+
     public void drawViewfinder() {
         resultBitmap = null;
         invalidate();
@@ -140,4 +184,20 @@ public final class ViewfinderView extends View {
         possibleResultPoints.add(point);
     }
 
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 }

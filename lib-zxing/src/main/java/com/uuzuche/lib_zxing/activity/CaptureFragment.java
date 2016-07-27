@@ -49,6 +49,8 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         CameraManager.init(getActivity().getApplication());
 
         hasSurface = false;
@@ -58,7 +60,19 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_capture, null);
+
+        Bundle bundle = getArguments();
+        View view = null;
+        if (bundle != null) {
+            int layoutId = bundle.getInt(CodeUtils.LAYOUT_ID);
+            if (layoutId != -1) {
+                view = inflater.inflate(layoutId, null);
+            }
+        }
+
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_capture, null);
+        }
 
         viewfinderView = (ViewfinderView) view.findViewById(R.id.viewfinder_view);
         surfaceView = (SurfaceView) view.findViewById(R.id.preview_view);
@@ -161,10 +175,6 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
 
     }
 
-    public ViewfinderView getViewfinderView() {
-        return viewfinderView;
-    }
-
     public Handler getHandler() {
         return handler;
     }
@@ -226,4 +236,5 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     public void setAnalyzeCallback(CodeUtils.AnalyzeCallback analyzeCallback) {
         this.analyzeCallback = analyzeCallback;
     }
+
 }
