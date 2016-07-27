@@ -52,7 +52,7 @@ compile 'cn.yipianfengye.android:zxing-library:1.1'
 
 **执行效果：**
 
-![image](http://img.blog.csdn.net/20160727165749550)
+![image](https://github.com/yipianfengye/android-zxingLibrary/blob/master/images/ezgif.com-video-to-gif.gif)
 
 但是这样的话是不是太简单了，如果我想选择图片解析呢？别急，对二维码图片的解析也是支持的
 
