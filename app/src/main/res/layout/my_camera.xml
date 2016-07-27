@@ -14,9 +14,9 @@
         android:id="@+id/viewfinder_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:inner_width="100"
-        app:inner_height="100"
-        app:inner_margintop="100"
+        app:inner_width="180"
+        app:inner_height="180"
+        app:inner_margintop="180"
         />
 
 </FrameLayout>

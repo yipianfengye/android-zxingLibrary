@@ -116,28 +116,30 @@ public class MainActivity extends AppCompatActivity {
          * 选择系统图片并解析
          */
         else if (requestCode == REQUEST_IMAGE) {
-            Uri uri = data.getData();
-            ContentResolver cr = getContentResolver();
-            try {
-                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(cr, uri);//显得到bitmap图片
+            if (data != null) {
+                Uri uri = data.getData();
+                ContentResolver cr = getContentResolver();
+                try {
+                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(cr, uri);//显得到bitmap图片
 
-                CodeUtils.analyzeBitmap(mBitmap, new CodeUtils.AnalyzeCallback() {
-                    @Override
-                    public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-                        Toast.makeText(MainActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                    CodeUtils.analyzeBitmap(mBitmap, new CodeUtils.AnalyzeCallback() {
+                        @Override
+                        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+                            Toast.makeText(MainActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onAnalyzeFailed() {
+                            Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    if (mBitmap != null) {
+                        mBitmap.recycle();
                     }
-
-                    @Override
-                    public void onAnalyzeFailed() {
-                        Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                if (mBitmap != null) {
-                    mBitmap.recycle();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
