@@ -1,1 +1,250 @@
 # android-zxingLibrary
+
+**使用方式：**
+
+
+- **集成默认的二维码扫描页面**
+
+在具体介绍该扫描库之前我们先看一下其具体的使用方式，看看是不是几行代码就可以集成二维码扫描的功能。
+
+- 在module的build.gradle中执行compile操作
+
+```
+compile 'cn.yipianfengye.android:zxing-library:1.1'
+```
+
+- 在代码中执行打开扫描二维码界面操作
+
+```
+/**
+         * 打开默认二维码扫描界面
+         */
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
+```
+这里的REQUEST_CODE是我们定义的int型常量。
+
+- 在Activity的onActivityResult方法中接收扫描结果
+
+```
+@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                String result = bundle.getString("result");
+                Toast.makeText(this, "result:" + result, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+```
+
+怎么样是不是很简单？下面我们可以来看一下具体的执行效果：
+
+**执行效果：**
+
+![image](http://img.blog.csdn.net/20160727165749550)
+
+但是这样的话是不是太简单了，如果我想选择图片解析呢？别急，对二维码图片的解析也是支持的
+
+- **集成对二维码图片的解析功能**
+
+- 调用系统API打开图库
+
+```
+Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+intent.addCategory(Intent.CATEGORY_OPENABLE);
+intent.setType("image/*");
+startActivityForResult(intent, REQUEST_IMAGE);
+```
+
+- 在Activity的onActivityResult方法中获取用户选中的图片并调用二维码图片解析API
+```
+if (requestCode == REQUEST_IMAGE) {
+            if (data != null) {
+                Uri uri = data.getData();
+                ContentResolver cr = getContentResolver();
+                try {
+                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(cr, uri);//显得到bitmap图片
+
+                    CodeUtils.analyzeBitmap(mBitmap, new CodeUtils.AnalyzeCallback() {
+                        @Override
+                        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+                            Toast.makeText(MainActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onAnalyzeFailed() {
+                            Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    if (mBitmap != null) {
+                        mBitmap.recycle();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+```
+
+**执行效果**
+
+![image](http://img.blog.csdn.net/20160727170831543)
+
+有了默认的二维码扫描界面，也有了对二维码图片的解析，可能有的同学会说如果我想定制化显示UI怎么办呢？没关系也支持滴。
+
+- **定制化显示扫描UI**
+
+由于我们的扫描组件是通过Fragment实现的，所以能够很轻松的实现扫描UI的定制化。
+
+- 在新的Activity中定义Layout布局文件
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_second"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/second_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="bottom|center_horizontal"
+        />
+
+    <FrameLayout
+        android:id="@+id/fl_my_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></FrameLayout>
+
+</FrameLayout>
+```
+
+启动id为fl_my_container的FrameLayout就是我们需要替换的扫描组件，也就是说我们会将我们定义的扫描Fragment替换到id为fl_my_container的FrameLayout的位置。而上面的button是我们添加的一个额外的控件，在这里你可以添加任意的控件，各种UI效果等。具体可以看下面在Activity的初始化过程。
+
+- 在Activity中执行Fragment的初始化操作
+
+```
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        /**
+         * 执行扫面Fragment的初始化操作
+         */
+        CaptureFragment captureFragment = new CaptureFragment();
+        // 为二维码扫描界面设置定制化界面
+        CodeUtils.setFragmentArgs(captureFragment, R.layout.my_camera);
+        
+        captureFragment.setAnalyzeCallback(analyzeCallback);
+        /**
+         * 替换我们的扫描控件
+         */ getSupportFragmentManager().beginTransaction().replace(R.id.fl_my_container, captureFragment).commit();
+    }
+
+```
+
+其中analyzeCallback是我们定义的扫描回调函数，其具体的定义：
+
+```
+/**
+     * 二维码解析回调函数
+     */
+    CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
+        @Override
+        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+            Intent resultIntent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
+            bundle.putString(CodeUtils.RESULT_STRING, result);
+            resultIntent.putExtras(bundle);
+            SecondActivity.this.setResult(RESULT_OK, resultIntent);
+            SecondActivity.this.finish();
+        }
+
+        @Override
+        public void onAnalyzeFailed() {
+            Intent resultIntent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_FAILED);
+            bundle.putString(CodeUtils.RESULT_STRING, "");
+            resultIntent.putExtras(bundle);
+            SecondActivity.this.setResult(RESULT_OK, resultIntent);
+            SecondActivity.this.finish();
+        }
+    };
+```
+仔细看的话，你会发现我们调用了CondeUtils.setFragmentArgs方法，该方法主要用于修改扫描界面扫描框与透明框相对位置的，与若不调用的话，其会显示默认的组件效果，而如果调用该方法的话，可以修改扫描框与透明框的相对位置等UI效果，我们可以看一下my_camera布局文件的实现。
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.uuzuche.lib_zxing.view.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:inner_width="180"
+        app:inner_height="180"
+        app:inner_margintop="180"
+        />
+
+</FrameLayout>
+```
+
+上面我们自定义的扫描控件的布局文件，下面我们看一下默认的扫描控件的布局文件：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.uuzuche.lib_zxing.view.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+</FrameLayout>
+```
+
+可以发现其主要的区别就是在自定义的扫描控件中多了三个自定义的扫描框属性：inner_width、inner_height和inner_margintop，通过这三个属性可以控制扫描框的相对位置。
+
+**执行效果**
+
+![image](http://img.blog.csdn.net/20160727172107314)
+
