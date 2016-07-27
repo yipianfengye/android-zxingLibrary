@@ -1,33 +1,89 @@
 package com.uuch.android_zxinglibrary;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CaptureFragment;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import java.io.FileNotFoundException;
+import java.lang.annotation.Target;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * 扫描跳转Activity RequestCode
+     */
     public static final int REQUEST_CODE = 111;
+    /**
+     * 选择系统图片Request Code
+     */
+    public static final int REQUEST_IMAGE = 112;
+
+    public Button button1 = null;
+    public Button button2 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.texttitle).setOnClickListener(new View.OnClickListener() {
+        /**
+         * 初始化组件
+         */
+        initView();
+    }
+
+
+    /**
+     * 初始化组件
+     */
+    private void initView() {
+        button1 = (Button) findViewById(R.id.button1);
+        button2 = (Button) findViewById(R.id.button2);
+
+        /**
+         * 打开二维码扫描界面
+         */
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+
+        /**
+         * 打开系统图片选择界面
+         */
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_IMAGE);
+            }
+        });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /**
+         * 处理二维码扫描结果
+         */
         if (requestCode == REQUEST_CODE) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
@@ -35,8 +91,40 @@ public class MainActivity extends AppCompatActivity {
                 if (bundle == null) {
                     return;
                 }
-                String result = bundle.getString("result");
-                Toast.makeText(this, "result:" + result, Toast.LENGTH_LONG).show();
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        /**
+         * 选择系统图片并解析
+         */
+        else if (requestCode == REQUEST_IMAGE) {
+            Uri uri = data.getData();
+            ContentResolver cr = getContentResolver();
+            try {
+                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(cr, uri);//显得到bitmap图片
+
+                CodeUtils.analyzeBitmap(mBitmap, new CodeUtils.AnalyzeCallback() {
+                    @Override
+                    public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+                        Toast.makeText(MainActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onAnalyzeFailed() {
+                        Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                if (mBitmap != null) {
+                    mBitmap.recycle();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

@@ -20,7 +20,7 @@
             android:name="com.uuzuche.lib_zxing.activity.CaptureActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:label="扫描二维码"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             ></activity>
     </application>
 
