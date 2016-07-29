@@ -32,8 +32,9 @@ compile 'cn.yipianfengye.android:zxing-library:1.1'
 - 在Activity的onActivityResult方法中接收扫描结果
 
 ```
-@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+/**
+         * 处理二维码扫描结果
+         */
         if (requestCode == REQUEST_CODE) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
@@ -41,11 +42,14 @@ compile 'cn.yipianfengye.android:zxing-library:1.1'
                 if (bundle == null) {
                     return;
                 }
-                String result = bundle.getString("result");
-                Toast.makeText(this, "result:" + result, Toast.LENGTH_LONG).show();
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
             }
         }
-    }
 ```
 
 怎么样是不是很简单？下面我们可以来看一下具体的执行效果：
