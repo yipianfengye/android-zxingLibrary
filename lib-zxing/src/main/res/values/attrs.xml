@@ -5,6 +5,11 @@
         <attr name="inner_width" format="integer"/>
         <attr name="inner_height" format="integer"/>
         <attr name="inner_margintop" format="integer" />
+        <attr name="inner_corner_color" format="color" />
+        <attr name="inner_corner_length" format="integer" />
+        <attr name="inner_corner_width" format="integer" />
+        <attr name="inner_scan_bitmap" format="integer" />
+        <attr name="inner_scan_speed" format="integer" />
     </declare-styleable>
 
 </resources>

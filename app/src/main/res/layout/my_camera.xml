@@ -17,6 +17,11 @@
         app:inner_width="180"
         app:inner_height="180"
         app:inner_margintop="180"
+        app:inner_corner_color="@color/scan_corner_color"
+        app:inner_corner_length="100"
+        app:inner_corner_width="10"
+        app:inner_scan_bitmap="@drawable/scan_back"
+        app:inner_scan_speed="10"
         />
 
 </FrameLayout>
