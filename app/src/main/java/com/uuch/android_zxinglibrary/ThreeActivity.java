@@ -62,7 +62,7 @@ public class ThreeActivity extends AppCompatActivity {
         });
 
         /**
-         * 解析生成的二维码图片
+         * 生成不带logo的二维码图片
          */
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

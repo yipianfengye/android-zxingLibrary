@@ -11,17 +11,17 @@
         />
 
     <com.uuzuche.lib_zxing.view.ViewfinderView
-        android:id="@+id/viewfinder_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:inner_width="180"
-        app:inner_height="180"
-        app:inner_margintop="120"
-        app:inner_corner_color="@color/scan_corner_color"
-        app:inner_corner_length="60"
-        app:inner_corner_width="10"
-        app:inner_scan_bitmap="@drawable/scan_image"
-        app:inner_scan_speed="10"
-        />
+    android:id="@+id/viewfinder_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:inner_width="180"
+    app:inner_height="180"
+    app:inner_margintop="120"
+    app:inner_corner_color="@color/scan_corner_color"
+    app:inner_corner_length="60"
+    app:inner_corner_width="10"
+    app:inner_scan_bitmap="@drawable/scan_image"
+    app:inner_scan_speed="10"
+    />
 
 </FrameLayout>
