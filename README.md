@@ -10,18 +10,19 @@
 
 - 支持对条形码的扫描功能
 
-**使用方式：**
+- 支持生成二维码操作
 
+**使用方式：**
 
 
 - **集成默认的二维码扫描页面**
 
-在具体介绍该扫描库之前我们先看一下其具体的使用方式，几行代码就可以集成二维码扫描的功能。
+在具体介绍该扫描库之前我们先看一下其具体的使用方式，看看是不是几行代码就可以集成二维码扫描的功能。
 
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.1'
+compile 'cn.yipianfengye.android:zxing-library:1.2'
 ```
 
 - 在代码中执行打开扫描二维码界面操作
@@ -67,7 +68,7 @@ compile 'cn.yipianfengye.android:zxing-library:1.1'
 
 **执行效果：**
 
-![image](https://github.com/yipianfengye/android-zxingLibrary/blob/master/images/ezgif.com-video-to-gif.gif)
+![这里写图片描述](http://img.blog.csdn.net/20160802150716190)
 
 但是这样的话是不是太简单了，如果我想选择图片解析呢？别急，对二维码图片的解析也是支持的
 
@@ -222,13 +223,18 @@ if (requestCode == REQUEST_IMAGE) {
         />
 
     <com.uuzuche.lib_zxing.view.ViewfinderView
-        android:id="@+id/viewfinder_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:inner_width="180"
-        app:inner_height="180"
-        app:inner_margintop="180"
-        />
+    android:id="@+id/viewfinder_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:inner_width="180"
+    app:inner_height="180"
+    app:inner_margintop="120"
+    app:inner_corner_color="@color/scan_corner_color"
+    app:inner_corner_length="60"
+    app:inner_corner_width="10"
+    app:inner_scan_bitmap="@drawable/scan_image"
+    app:inner_scan_speed="10"
+    />
 
 </FrameLayout>
 ```
@@ -257,10 +263,76 @@ if (requestCode == REQUEST_IMAGE) {
 </FrameLayout>
 ```
 
-可以发现其主要的区别就是在自定义的扫描控件中多了三个自定义的扫描框属性：inner_width、inner_height和inner_margintop，通过这三个属性可以控制扫描框的相对位置。
+可以发现其主要的区别就是在自定义的扫描控件中多了几个自定义的扫描框属性：
+
+```
+<declare-styleable name="innerrect">
+        <attr name="inner_width" format="integer"/><!-- 控制扫描框的宽度 -->
+        <attr name="inner_height" format="integer"/><!-- 控制扫描框的高度 -->
+        <attr name="inner_margintop" format="integer" /><!-- 控制扫描框距离顶部的距离 -->
+        <attr name="inner_corner_color" format="color" /><!-- 控制扫描框四角的颜色 -->
+        <attr name="inner_corner_length" format="integer" /><!-- 控制扫描框四角的长度 -->
+        <attr name="inner_corner_width" format="integer" /><!-- 控制扫描框四角的宽度 -->
+        <attr name="inner_scan_bitmap" format="reference" /><!-- 控制扫描图 -->
+        <attr name="inner_scan_speed" format="integer" /><!-- 控制扫描速度 -->
+    </declare-styleable>
+```
+
+通过以上几个属性我们就可以定制化的显示我们的扫描UI了，比如定制化微信扫描UI：
 
 **执行效果**
 
-![image](http://img.blog.csdn.net/20160727172107314)
+![image](http://img.blog.csdn.net/20160802151453053)
+
+当然了如果以上的以上，你还是对定制化UI方面不太满意，可以直接下载我的项目，然后引入lib-zxing module作为你的module，直接修改其代码。
+
+- **生成二维码图片**
+
+- 生成带Logo的二维码图片：
+
+```
+/**
+         * 生成二维码图片
+         */
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String textContent = editText.getText().toString();
+                if (TextUtils.isEmpty(textContent)) {
+                    Toast.makeText(ThreeActivity.this, "您的输入为空!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                editText.setText("");
+                mBitmap = CodeUtils.createImage(textContent, 400, 400, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+                imageView.setImageBitmap(mBitmap);
+            }
+        });
+```
+
+- 生成不带logo的二维码图片
+
+```
+/**
+         * 生成不带logo的二维码图片
+         */
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String textContent = editText.getText().toString();
+                if (TextUtils.isEmpty(textContent)) {
+                    Toast.makeText(ThreeActivity.this, "您的输入为空!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                editText.setText("");
+                mBitmap = CodeUtils.createImage(textContent, 400, 400, null);
+                imageView.setImageBitmap(mBitmap);
+            }
+        });
+```
+
+- 执行效果
+
+![image](http://img.blog.csdn.net/20160802152820667)
 
 也可以参考我的博客：<a href="http://blog.csdn.net/qq_23547831/article/details/52037710">几行代码快速集成二维码扫描库</a>
