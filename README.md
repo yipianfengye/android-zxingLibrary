@@ -1,11 +1,22 @@
 # android-zxingLibrary
 
+**使用说明**
+
+- 可打开默认二维码扫描页面
+
+- 支持对图片Bitmap的扫描功能
+
+- 支持对UI的定制化操作
+
+- 支持对条形码的扫描功能
+
 **使用方式：**
+
 
 
 - **集成默认的二维码扫描页面**
 
-在具体介绍该扫描库之前我们先看一下其具体的使用方式，看看是不是几行代码就可以集成二维码扫描的功能。
+在具体介绍该扫描库之前我们先看一下其具体的使用方式，几行代码就可以集成二维码扫描的功能。
 
 - 在module的build.gradle中执行compile操作
 
@@ -32,8 +43,9 @@ compile 'cn.yipianfengye.android:zxing-library:1.1'
 - 在Activity的onActivityResult方法中接收扫描结果
 
 ```
-@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+/**
+         * 处理二维码扫描结果
+         */
         if (requestCode == REQUEST_CODE) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
@@ -41,18 +53,21 @@ compile 'cn.yipianfengye.android:zxing-library:1.1'
                 if (bundle == null) {
                     return;
                 }
-                String result = bundle.getString("result");
-                Toast.makeText(this, "result:" + result, Toast.LENGTH_LONG).show();
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
             }
         }
-    }
 ```
 
 怎么样是不是很简单？下面我们可以来看一下具体的执行效果：
 
 **执行效果：**
 
-![image](http://img.blog.csdn.net/20160727165749550)
+![image](https://github.com/yipianfengye/android-zxingLibrary/blob/master/images/ezgif.com-video-to-gif.gif)
 
 但是这样的话是不是太简单了，如果我想选择图片解析呢？别急，对二维码图片的解析也是支持的
 
@@ -248,3 +263,4 @@ if (requestCode == REQUEST_IMAGE) {
 
 ![image](http://img.blog.csdn.net/20160727172107314)
 
+也可以参考我的博客：<a href="http://blog.csdn.net/qq_23547831/article/details/52037710">几行代码快速集成二维码扫描库</a>
