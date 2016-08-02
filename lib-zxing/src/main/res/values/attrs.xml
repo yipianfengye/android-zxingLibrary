@@ -8,7 +8,7 @@
         <attr name="inner_corner_color" format="color" />
         <attr name="inner_corner_length" format="integer" />
         <attr name="inner_corner_width" format="integer" />
-        <attr name="inner_scan_bitmap" format="integer" />
+        <attr name="inner_scan_bitmap" format="reference" />
         <attr name="inner_scan_speed" format="integer" />
     </declare-styleable>
 

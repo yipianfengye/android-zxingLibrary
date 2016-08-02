@@ -94,15 +94,19 @@ public final class ViewfinderView extends View {
         CameraManager.FRAME_HEIGHT = dip2px(context, innerrectHeight);
 
         // 扫描框边角颜色
-        innercornercolor = ta.getColor(R.styleable.innerrect_inner_corner_color, Color.RED);
+        innercornercolor = ta.getColor(R.styleable.innerrect_inner_corner_color, Color.parseColor("#45DDDD"));
         // 扫描框边角长度
         innercornerlength = ta.getInt(R.styleable.innerrect_inner_corner_length, 65);
         // 扫描框边角宽度
         innercornerwidth = ta.getInt(R.styleable.innerrect_inner_corner_width, 15);
 
         // 扫描bitmap
-        // Drawable drawable = ta.getDrawable(R.styleable.innerrect_inner_scan_bitmap);
-        // drawableToBitamp(drawable);
+        Drawable drawable = ta.getDrawable(R.styleable.innerrect_inner_scan_bitmap);
+        if (drawable != null) {
+        }
+
+        // 扫描控件
+        scanLight = BitmapFactory.decodeResource(getResources(), ta.getResourceId(R.styleable.innerrect_inner_scan_bitmap, R.drawable.scan_light));
         // 扫描速度
         SCAN_VELOCITY = ta.getInt(R.styleable.innerrect_inner_scan_speed, 5);
 
@@ -163,7 +167,7 @@ public final class ViewfinderView extends View {
     // 扫描线移动的y
     private int scanLineTop;
     // 扫描线移动速度
-    private int SCAN_VELOCITY = 5;
+    private int SCAN_VELOCITY;
     // 扫描线
     Bitmap scanLight;
 
@@ -191,11 +195,11 @@ public final class ViewfinderView extends View {
 
 
     // 扫描框边角颜色
-    private int innercornercolor = Color.RED;
+    private int innercornercolor;
     // 扫描框边角长度
-    private int innercornerlength = 60;
+    private int innercornerlength;
     // 扫描框边角宽度
-    private int innercornerwidth = 15;
+    private int innercornerwidth;
 
     /**
      * 绘制取景框边框
@@ -205,11 +209,11 @@ public final class ViewfinderView extends View {
      */
     private void drawFrameBounds(Canvas canvas, Rect frame) {
 
-        paint.setColor(Color.WHITE);
+        /*paint.setColor(Color.WHITE);
         paint.setStrokeWidth(2);
         paint.setStyle(Paint.Style.STROKE);
 
-        canvas.drawRect(frame, paint);
+        canvas.drawRect(frame, paint);*/
 
         paint.setColor(innercornercolor);
         paint.setStyle(Paint.Style.FILL);

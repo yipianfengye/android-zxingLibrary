@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="scan_corner_color">#00FF00</color>
+    <color name="scan_corner_color">#0effc2</color>
 </resources>
