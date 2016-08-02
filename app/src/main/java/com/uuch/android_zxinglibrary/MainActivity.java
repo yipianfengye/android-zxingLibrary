@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public Button button1 = null;
     public Button button2 = null;
     public Button button3 = null;
+    public Button button4 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         button1 = (Button) findViewById(R.id.button1);
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
+        button4 = (Button) findViewById(R.id.button4);
 
         /**
          * 打开默认二维码扫描界面
@@ -87,6 +89,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
+
+        /**
+         * 测试生成二维码图片
+         */
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ThreeActivity.class);
+                startActivity(intent);
             }
         });
     }
