@@ -22,7 +22,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.2'
+compile 'cn.yipianfengye.android:zxing-library:1.4'
 ```
 
 - 在代码中执行打开扫描二维码界面操作
@@ -68,7 +68,7 @@ compile 'cn.yipianfengye.android:zxing-library:1.2'
 
 **执行效果：**
 
-![这里写图片描述](http://img.blog.csdn.net/20160802150716190)
+![image](https://github.com/yipianfengye/android-zxingLibrary/blob/master/images/ezgif.com-video-to-gif%20(2)%2015.33.08.gif)
 
 但是这样的话是不是太简单了，如果我想选择图片解析呢？别急，对二维码图片的解析也是支持的
 
@@ -282,7 +282,7 @@ if (requestCode == REQUEST_IMAGE) {
 
 **执行效果**
 
-![image](http://img.blog.csdn.net/20160802151453053)
+![image](https://github.com/yipianfengye/android-zxingLibrary/blob/master/images/ezgif.com-video-to-gif%20(3)%2015.33.08.gif)
 
 当然了如果以上的以上，你还是对定制化UI方面不太满意，可以直接下载我的项目，然后引入lib-zxing module作为你的module，直接修改其代码。
 
@@ -333,6 +333,6 @@ if (requestCode == REQUEST_IMAGE) {
 
 - 执行效果
 
-![image](http://img.blog.csdn.net/20160802152820667)
+![image](https://github.com/yipianfengye/android-zxingLibrary/blob/master/images/ezgif.com-video-to-gif%20(5).gif)
 
 也可以参考我的博客：<a href="http://blog.csdn.net/qq_23547831/article/details/52037710">几行代码快速集成二维码扫描库</a>
