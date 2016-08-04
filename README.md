@@ -22,7 +22,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.3'
+compile 'cn.yipianfengye.android:zxing-library:1.4'
 ```
 
 - 在代码中执行打开扫描二维码界面操作
