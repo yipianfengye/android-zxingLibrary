@@ -57,7 +57,19 @@ final class CameraConfigurationManager {
         Display display = manager.getDefaultDisplay();
         screenResolution = new Point(display.getWidth(), display.getHeight());
         Log.d(TAG, "Screen resolution: " + screenResolution);
-        cameraResolution = getCameraResolution(parameters, screenResolution);
+
+        Point screenResolutionForCamera = new Point();
+        screenResolutionForCamera.x = screenResolution.x;
+        screenResolutionForCamera.y = screenResolution.y;
+        // preview size is always something like 480*320, other 320*480
+        if (screenResolution.x < screenResolution.y) {
+            screenResolutionForCamera.x = screenResolution.y;
+            screenResolutionForCamera.y = screenResolution.x;
+        }
+        Log.i("#########", "screenX:" + screenResolutionForCamera.x + "   screenY:" + screenResolutionForCamera.y);
+        cameraResolution = getCameraResolution(parameters, screenResolutionForCamera);
+
+        // cameraResolution = getCameraResolution(parameters, screenResolution);
         Log.d(TAG, "Camera resolution: " + screenResolution);
     }
 
