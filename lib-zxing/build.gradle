@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -35,7 +35,7 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'cn.yipianfengye.android'
     PUBLISH_ARTIFACT_ID = 'zxing-library'
-    PUBLISH_VERSION = '1.2'
+    PUBLISH_VERSION = '1.4'
 }
 
 apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
