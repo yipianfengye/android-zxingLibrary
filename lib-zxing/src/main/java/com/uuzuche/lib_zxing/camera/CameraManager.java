@@ -322,4 +322,27 @@ public final class CameraManager {
         return context;
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public boolean isPreviewing() {
+        return previewing;
+    }
+
+    public boolean isUseOneShotPreviewCallback() {
+        return useOneShotPreviewCallback;
+    }
+
+    public PreviewCallback getPreviewCallback() {
+        return previewCallback;
+    }
+
+    public AutoFocusCallback getAutoFocusCallback() {
+        return autoFocusCallback;
+    }
+
+    public void setPreviewing(boolean previewing) {
+        this.previewing = previewing;
+    }
 }

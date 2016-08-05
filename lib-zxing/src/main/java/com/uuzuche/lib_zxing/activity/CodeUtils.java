@@ -3,6 +3,7 @@ package com.uuzuche.lib_zxing.activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -17,6 +18,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.uuzuche.lib_zxing.camera.BitmapLuminanceSource;
+import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.uuzuche.lib_zxing.decoding.DecodeFormatManager;
 
 import java.util.Hashtable;
@@ -176,5 +178,19 @@ public class CodeUtils {
         Bundle bundle = new Bundle();
         bundle.putInt(LAYOUT_ID, layoutId);
         captureFragment.setArguments(bundle);
+    }
+
+    public static void isLightEnable(boolean isEnable) {
+        if (isEnable) {
+            Camera camera = CameraManager.get().getCamera();
+            Camera.Parameters parameter = camera.getParameters();
+            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            camera.setParameters(parameter);
+        } else {
+            Camera camera = CameraManager.get().getCamera();
+            Camera.Parameters parameter = camera.getParameters();
+            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            camera.setParameters(parameter);
+        }
     }
 }

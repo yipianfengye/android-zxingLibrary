@@ -2,6 +2,7 @@ package com.uuzuche.lib_zxing.activity;
 
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
     private CodeUtils.AnalyzeCallback analyzeCallback;
+    private Camera camera;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,6 +146,7 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
             CameraManager.get().openDriver(surfaceHolder);
+            camera = CameraManager.get().getCamera();
         } catch (IOException ioe) {
             return;
         } catch (RuntimeException e) {
@@ -172,7 +175,17 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         hasSurface = false;
-
+        if (camera != null) {
+            if (camera != null && CameraManager.get().isPreviewing()) {
+                if (!CameraManager.get().isUseOneShotPreviewCallback()) {
+                    camera.setPreviewCallback(null);
+                }
+                camera.stopPreview();
+                CameraManager.get().getPreviewCallback().setHandler(null, 0);
+                CameraManager.get().getAutoFocusCallback().setHandler(null, 0);
+                CameraManager.get().setPreviewing(false);
+            }
+        }
     }
 
     public Handler getHandler() {

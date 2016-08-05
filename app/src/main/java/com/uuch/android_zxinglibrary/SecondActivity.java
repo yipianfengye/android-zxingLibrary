@@ -2,27 +2,54 @@ package com.uuch.android_zxinglibrary;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.uuzuche.lib_zxing.camera.CameraManager;
 
 /**
  * 定制化显示扫描界面
  */
 public class SecondActivity extends AppCompatActivity {
 
+    private CaptureFragment captureFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        CaptureFragment captureFragment = new CaptureFragment();
+        captureFragment = new CaptureFragment();
         // 为二维码扫描界面设置定制化界面
         CodeUtils.setFragmentArgs(captureFragment, R.layout.my_camera);
         captureFragment.setAnalyzeCallback(analyzeCallback);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_my_container, captureFragment).commit();
+
+        initView();
+    }
+
+    public static boolean isOpen = false;
+
+    private void initView() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear1);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isOpen) {
+                    CodeUtils.isLightEnable(true);
+                    isOpen = true;
+                } else {
+                    CodeUtils.isLightEnable(false);
+                    isOpen = false;
+                }
+
+            }
+        });
     }
 
 
