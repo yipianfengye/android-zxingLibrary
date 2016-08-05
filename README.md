@@ -1,5 +1,14 @@
 # android-zxingLibrary
 
+
+**更新日志**
+
+- compile 1.3 2.16/08/02 优化扫描API
+
+- compile 1.4 2016/08/03 修复扫描时二维码拉伸问题
+
+- compile 1.5 2016/08/05 更新控制闪光灯API
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -12,6 +21,8 @@
 
 - 支持生成二维码操作
 
+- 支持控制闪光灯开关
+
 **使用方式：**
 
 
@@ -22,7 +33,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.4'
+compile 'cn.yipianfengye.android:zxing-library:1.5'
 ```
 
 - 在代码中执行打开扫描二维码界面操作
@@ -334,5 +345,19 @@ if (requestCode == REQUEST_IMAGE) {
 - 执行效果
 
 ![image](https://github.com/yipianfengye/android-zxingLibrary/blob/master/images/ezgif.com-video-to-gif%20(5).gif)
+
+- 支持控制闪光灯
+
+```
+/**
+ * 打开闪光灯
+ */
+CodeUtils.isLightEnable(true);
+
+/**
+ * 关闭闪光灯
+ */
+ CodeUtils.isLightEnable(false);
+```
 
 也可以参考我的博客：<a href="http://blog.csdn.net/qq_23547831/article/details/52037710">几行代码快速集成二维码扫描库</a>
