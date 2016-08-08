@@ -17,11 +17,13 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.uuzuche.lib_zxing.camera.BitmapLuminanceSource;
 import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.uuzuche.lib_zxing.decoding.DecodeFormatManager;
 
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -110,8 +112,12 @@ public class CodeUtils {
                 offsetX = (w - scaleWidth) / 2;
                 offsetY = (h - scaleHeight) / 2;
             }
-            Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+            Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
             hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+            //容错级别
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+            //设置空白边距的宽度
+            hints.put(EncodeHintType.MARGIN, 0);
             BitMatrix bitMatrix = new QRCodeWriter().encode(text, BarcodeFormat.QR_CODE, w, h, hints);
             int[] pixels = new int[w * h];
             for (int y = 0; y < h; y++) {
