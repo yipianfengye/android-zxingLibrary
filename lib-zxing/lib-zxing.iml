@@ -114,7 +114,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/poms" />
       <excludeFolder url="file://$MODULE_DIR$/build/release" />
-      <excludeFolder url="file://$MODULE_DIR$/build/release-1.5.zip" />
+      <excludeFolder url="file://$MODULE_DIR$/build/release-1.6.zip" />
       <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/test-results" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
