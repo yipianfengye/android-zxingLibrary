@@ -9,6 +9,8 @@
 
 - compile 1.5 2016/08/05 更新控制闪光灯API
 
+- compile 1.6 2016/08/08 更新生成带logo二维码时logo不带边距可能存在的问题
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -33,7 +35,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.5'
+compile 'cn.yipianfengye.android:zxing-library:1.6'
 ```
 
 - 在代码中执行打开扫描二维码界面操作
