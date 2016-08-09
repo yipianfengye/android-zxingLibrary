@@ -11,6 +11,8 @@
 
 - compile 1.6 2016/08/08 更新生成带logo二维码时logo不带边距可能存在的问题
 
+- compile 1.7 2016/08/09 修改默认扫描框的大小，适配不同分辨率手机，修改自定义扫描框属性类型
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -35,7 +37,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.6'
+compile 'cn.yipianfengye.android:zxing-library:1.7'
 ```
 
 - 在代码中执行打开扫描二维码界面操作
@@ -236,18 +238,18 @@ if (requestCode == REQUEST_IMAGE) {
         />
 
     <com.uuzuche.lib_zxing.view.ViewfinderView
-    android:id="@+id/viewfinder_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:inner_width="180"
-    app:inner_height="180"
-    app:inner_margintop="120"
-    app:inner_corner_color="@color/scan_corner_color"
-    app:inner_corner_length="60"
-    app:inner_corner_width="10"
-    app:inner_scan_bitmap="@drawable/scan_image"
-    app:inner_scan_speed="10"
-    />
+        android:id="@+id/viewfinder_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:inner_width="200dp"
+        app:inner_height="200dp"
+        app:inner_margintop="150dp"
+        app:inner_corner_color="@color/scan_corner_color"
+        app:inner_corner_length="30dp"
+        app:inner_corner_width="5dp"
+        app:inner_scan_bitmap="@drawable/scan_image"
+        app:inner_scan_speed="10"
+        />
 
 </FrameLayout>
 ```
@@ -280,12 +282,12 @@ if (requestCode == REQUEST_IMAGE) {
 
 ```
 <declare-styleable name="innerrect">
-        <attr name="inner_width" format="integer"/><!-- 控制扫描框的宽度 -->
-        <attr name="inner_height" format="integer"/><!-- 控制扫描框的高度 -->
-        <attr name="inner_margintop" format="integer" /><!-- 控制扫描框距离顶部的距离 -->
+        <attr name="inner_width" format="dimension"/><!-- 控制扫描框的宽度 -->
+        <attr name="inner_height" format="dimension"/><!-- 控制扫描框的高度 -->
+        <attr name="inner_margintop" format="dimension" /><!-- 控制扫描框距离顶部的距离 -->
         <attr name="inner_corner_color" format="color" /><!-- 控制扫描框四角的颜色 -->
-        <attr name="inner_corner_length" format="integer" /><!-- 控制扫描框四角的长度 -->
-        <attr name="inner_corner_width" format="integer" /><!-- 控制扫描框四角的宽度 -->
+        <attr name="inner_corner_length" format="dimension" /><!-- 控制扫描框四角的长度 -->
+        <attr name="inner_corner_width" format="dimension" /><!-- 控制扫描框四角的宽度 -->
         <attr name="inner_scan_bitmap" format="reference" /><!-- 控制扫描图 -->
         <attr name="inner_scan_speed" format="integer" /><!-- 控制扫描速度 -->
     </declare-styleable>
