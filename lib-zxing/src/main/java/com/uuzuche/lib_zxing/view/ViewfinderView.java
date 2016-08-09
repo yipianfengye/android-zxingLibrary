@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
+import com.uuzuche.lib_zxing.DisplayUtil;
 import com.uuzuche.lib_zxing.R;
 import com.uuzuche.lib_zxing.camera.CameraManager;
 
@@ -80,25 +81,23 @@ public final class ViewfinderView extends View {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.innerrect);
 
         // 扫描框距离顶部
-        int innerMarginTop = ta.getInt(R.styleable.innerrect_inner_margintop, -1);
+        float innerMarginTop = ta.getDimension(R.styleable.innerrect_inner_margintop, -1);
         if (innerMarginTop != -1) {
-            CameraManager.FRAME_MARGINTOP = dip2px(context, innerMarginTop);
+            CameraManager.FRAME_MARGINTOP = (int) innerMarginTop;
         }
 
         // 扫描框的宽度
-        int innerrectWidth = ta.getInt(R.styleable.innerrect_inner_width, 210);
-        CameraManager.FRAME_WIDTH = dip2px(context, innerrectWidth);
+        CameraManager.FRAME_WIDTH = (int) ta.getDimension(R.styleable.innerrect_inner_width, DisplayUtil.screenWidthPx / 2);
 
         // 扫描框的高度
-        int innerrectHeight = ta.getInt(R.styleable.innerrect_inner_height, 210);
-        CameraManager.FRAME_HEIGHT = dip2px(context, innerrectHeight);
+        CameraManager.FRAME_HEIGHT = (int) ta.getDimension(R.styleable.innerrect_inner_height, DisplayUtil.screenWidthPx / 2);
 
         // 扫描框边角颜色
         innercornercolor = ta.getColor(R.styleable.innerrect_inner_corner_color, Color.parseColor("#45DDDD"));
         // 扫描框边角长度
-        innercornerlength = ta.getInt(R.styleable.innerrect_inner_corner_length, 65);
+        innercornerlength = (int) ta.getDimension(R.styleable.innerrect_inner_corner_length, 65);
         // 扫描框边角宽度
-        innercornerwidth = ta.getInt(R.styleable.innerrect_inner_corner_width, 15);
+        innercornerwidth = (int) ta.getDimension(R.styleable.innerrect_inner_corner_width, 15);
 
         // 扫描bitmap
         Drawable drawable = ta.getDrawable(R.styleable.innerrect_inner_scan_bitmap);
