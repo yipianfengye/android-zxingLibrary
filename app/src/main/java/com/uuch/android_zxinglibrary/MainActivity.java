@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                Intent intent = new Intent(getApplication(), CaptureActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -131,11 +131,8 @@ public class MainActivity extends AppCompatActivity {
         else if (requestCode == REQUEST_IMAGE) {
             if (data != null) {
                 Uri uri = data.getData();
-                ContentResolver cr = getContentResolver();
                 try {
-                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(cr, uri);//显得到bitmap图片
-
-                    CodeUtils.analyzeBitmap(mBitmap, new CodeUtils.AnalyzeCallback() {
+                    CodeUtils.analyzeBitmap(uri.getPath(), new CodeUtils.AnalyzeCallback() {
                         @Override
                         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
                             Toast.makeText(MainActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
@@ -146,10 +143,6 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
                         }
                     });
-
-                    if (mBitmap != null) {
-                        mBitmap.recycle();
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
