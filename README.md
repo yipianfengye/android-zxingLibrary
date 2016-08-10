@@ -13,6 +13,8 @@
 
 - compile 1.7 2016/08/09 修改默认扫描框的大小，适配不同分辨率手机，修改自定义扫描框属性类型
 
+- compile 1.8 2016/08/10 修复解析二维码图片时可能存在的OOM问题
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -37,7 +39,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.7'
+compile 'cn.yipianfengye.android:zxing-library:1.8'
 ```
 
 - 在代码中执行打开扫描二维码界面操作
