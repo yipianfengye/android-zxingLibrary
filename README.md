@@ -15,6 +15,8 @@
 
 - compile 1.8 2016/08/10 修复解析二维码图片时可能存在的OOM问题
 
+- compile 1.9 2016/09/07 Library库中删除Application，在demo库中的Application执行初始化操作
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -39,7 +41,17 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.8'
+compile 'cn.yipianfengye.android:zxing-library:1.9'
+```
+
+- 在demo Application中执行初始化操作
+```
+@Override
+    public void onCreate() {
+        super.onCreate();
+
+        ZXingLibrary.initDisplayOpinion(this);
+    }
 ```
 
 - 在代码中执行打开扫描二维码界面操作
