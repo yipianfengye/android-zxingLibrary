@@ -1,24 +1,16 @@
 package com.uuch.android_zxinglibrary;
 
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
-
-import java.io.FileNotFoundException;
-import java.lang.annotation.Target;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -125,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
         /**
          * 选择系统图片并解析
          */
@@ -132,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 Uri uri = data.getData();
                 try {
-                    CodeUtils.analyzeBitmap(uri.getPath(), new CodeUtils.AnalyzeCallback() {
+                    CodeUtils.analyzeBitmap(ImageUtil.getImageAbsolutePath(this, uri), new CodeUtils.AnalyzeCallback() {
                         @Override
                         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
                             Toast.makeText(MainActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
