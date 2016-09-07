@@ -56,7 +56,7 @@ public class CodeUtils {
         Bitmap mBitmap = BitmapFactory.decodeFile(path, options);
         options.inJustDecodeBounds = false; // 获取新的大小
 
-        int sampleSize = (int) (options.outHeight / (float) 1000);
+        int sampleSize = (int) (options.outHeight / (float) 400);
 
         if (sampleSize <= 0)
             sampleSize = 1;
