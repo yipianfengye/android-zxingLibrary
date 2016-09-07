@@ -14,7 +14,6 @@
 
     <application
         android:allowBackup="true"
-        android:name=".ZApplication"
         >
 
         <activity
