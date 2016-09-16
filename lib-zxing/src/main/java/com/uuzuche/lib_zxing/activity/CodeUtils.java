@@ -41,28 +41,12 @@ public class CodeUtils {
     public static final String LAYOUT_ID = "layout_id";
 
 
-
     /**
-     * 解析二维码图片工具类
+     * 根据　bitmap　解析二维码
+     * @param bitmap
      * @param analyzeCallback
      */
-    public static void analyzeBitmap(String path, AnalyzeCallback analyzeCallback) {
-
-        /**
-         * 首先判断图片的大小,若图片过大,则执行图片的裁剪操作,防止OOM
-         */
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true; // 先获取原大小
-        Bitmap mBitmap = BitmapFactory.decodeFile(path, options);
-        options.inJustDecodeBounds = false; // 获取新的大小
-
-        int sampleSize = (int) (options.outHeight / (float) 400);
-
-        if (sampleSize <= 0)
-            sampleSize = 1;
-        options.inSampleSize = sampleSize;
-        mBitmap = BitmapFactory.decodeFile(path, options);
-
+    public static void analyzeBitmap(Bitmap bitmap, AnalyzeCallback analyzeCallback) {
         MultiFormatReader multiFormatReader = new MultiFormatReader();
 
         // 解码的参数
@@ -86,20 +70,47 @@ public class CodeUtils {
         // 开始对图像资源解码
         Result rawResult = null;
         try {
-            rawResult = multiFormatReader.decodeWithState(new BinaryBitmap(new HybridBinarizer(new BitmapLuminanceSource(mBitmap))));
+            rawResult = multiFormatReader.decodeWithState(
+                    new BinaryBitmap(new HybridBinarizer(new BitmapLuminanceSource(bitmap))));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         if (rawResult != null) {
             if (analyzeCallback != null) {
-                analyzeCallback.onAnalyzeSuccess(mBitmap, rawResult.getText());
+                analyzeCallback.onAnalyzeSuccess(bitmap, rawResult.getText());
             }
         } else {
             if (analyzeCallback != null) {
                 analyzeCallback.onAnalyzeFailed();
             }
         }
+    }
+
+
+    /**
+     * 根据图片路径解析二维码图片工具类
+     * @param path 图片绝对路径
+     * @param analyzeCallback
+     */
+    public static void analyzeBitmap(String path, AnalyzeCallback analyzeCallback) {
+
+        /**
+         * 首先判断图片的大小,若图片过大,则执行图片的裁剪操作,防止OOM
+         */
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; // 先获取原大小
+        Bitmap mBitmap = BitmapFactory.decodeFile(path, options);
+        options.inJustDecodeBounds = false; // 获取新的大小
+
+        int sampleSize = (int) (options.outHeight / (float) 400);
+
+        if (sampleSize <= 0)
+            sampleSize = 1;
+        options.inSampleSize = sampleSize;
+        mBitmap = BitmapFactory.decodeFile(path, options);
+
+        analyzeBitmap(mBitmap, analyzeCallback);
     }
 
     /**
