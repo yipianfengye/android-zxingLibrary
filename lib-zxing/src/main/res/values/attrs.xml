@@ -10,6 +10,7 @@
         <attr name="inner_corner_width" format="dimension" />
         <attr name="inner_scan_bitmap" format="reference" />
         <attr name="inner_scan_speed" format="integer" />
+        <attr name="inner_scan_iscircle" format="boolean" />
     </declare-styleable>
 
 </resources>

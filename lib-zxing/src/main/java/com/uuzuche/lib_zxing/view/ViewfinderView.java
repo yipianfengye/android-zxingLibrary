@@ -109,6 +109,8 @@ public final class ViewfinderView extends View {
         // 扫描速度
         SCAN_VELOCITY = ta.getInt(R.styleable.innerrect_inner_scan_speed, 5);
 
+        isCircle = ta.getBoolean(R.styleable.innerrect_inner_scan_iscircle, true);
+
         ta.recycle();
     }
 
@@ -147,15 +149,21 @@ public final class ViewfinderView extends View {
                 lastPossibleResultPoints = currentPossible;
                 paint.setAlpha(OPAQUE);
                 paint.setColor(resultPointColor);
-                for (ResultPoint point : currentPossible) {
-                    canvas.drawCircle(frame.left + point.getX(), frame.top + point.getY(), 6.0f, paint);
+
+                if (isCircle) {
+                    for (ResultPoint point : currentPossible) {
+                        canvas.drawCircle(frame.left + point.getX(), frame.top + point.getY(), 6.0f, paint);
+                    }
                 }
             }
             if (currentLast != null) {
                 paint.setAlpha(OPAQUE / 2);
                 paint.setColor(resultPointColor);
-                for (ResultPoint point : currentLast) {
-                    canvas.drawCircle(frame.left + point.getX(), frame.top + point.getY(), 3.0f, paint);
+
+                if (isCircle) {
+                    for (ResultPoint point : currentLast) {
+                        canvas.drawCircle(frame.left + point.getX(), frame.top + point.getY(), 3.0f, paint);
+                    }
                 }
             }
 
@@ -168,7 +176,9 @@ public final class ViewfinderView extends View {
     // 扫描线移动速度
     private int SCAN_VELOCITY;
     // 扫描线
-    Bitmap scanLight;
+    private Bitmap scanLight;
+    // 是否展示小圆点
+    private boolean isCircle;
 
     /**
      * 绘制移动扫描线

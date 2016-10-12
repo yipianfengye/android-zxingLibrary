@@ -22,6 +22,7 @@
         app:inner_corner_width="5dp"
         app:inner_scan_bitmap="@drawable/scan_image"
         app:inner_scan_speed="10"
+        app:inner_scan_iscircle="false"
         />
 
 </FrameLayout>
