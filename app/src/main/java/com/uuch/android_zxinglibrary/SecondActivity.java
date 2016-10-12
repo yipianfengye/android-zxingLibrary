@@ -13,7 +13,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 /**
  * 定制化显示扫描界面
  */
-public class SecondActivity extends AppCompatActivity {
+public class SecondActivity extends BaseActivity {
 
     private CaptureFragment captureFragment;
 

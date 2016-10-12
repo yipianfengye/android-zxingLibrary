@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
-public class ThreeActivity extends AppCompatActivity {
+public class ThreeActivity extends BaseActivity {
 
     public EditText editText = null;
     public Button button = null;
