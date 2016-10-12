@@ -17,6 +17,8 @@
 
 - compile 1.9 2016/09/07 Library库中删除Application，在demo库中的Application执行初始化操作
 
+- compile 2.0 2016/10/12 测试Demo中添加Android M权限处理，代码库添加自定义属性支持小圆点是否展示
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -41,7 +43,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:1.9'
+compile 'cn.yipianfengye.android:zxing-library:2.0'
 ```
 
 - 在demo Application中执行初始化操作
@@ -263,6 +265,7 @@ if (requestCode == REQUEST_IMAGE) {
         app:inner_corner_width="5dp"
         app:inner_scan_bitmap="@drawable/scan_image"
         app:inner_scan_speed="10"
+        app:inner_scan_iscircle="false"
         />
 
 </FrameLayout>
@@ -304,6 +307,7 @@ if (requestCode == REQUEST_IMAGE) {
         <attr name="inner_corner_width" format="dimension" /><!-- 控制扫描框四角的宽度 -->
         <attr name="inner_scan_bitmap" format="reference" /><!-- 控制扫描图 -->
         <attr name="inner_scan_speed" format="integer" /><!-- 控制扫描速度 -->
+        <attr name="inner_scan_iscircle" format="boolean" /><!-- 控制小圆点是否展示 -->
     </declare-styleable>
 ```
 
