@@ -64,8 +64,24 @@ public class CodeUtils {
         mBitmap = BitmapFactory.decodeFile(path, options);
 
         MultiFormatReader multiFormatReader = new MultiFormatReader();
-        //此时默认支持所有解码格式
-        multiFormatReader.setHints(null);
+
+        // 解码的参数
+        Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(2);
+        // 可以解析的编码类型
+        Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
+        if (decodeFormats == null || decodeFormats.isEmpty()) {
+            decodeFormats = new Vector<BarcodeFormat>();
+
+            // 这里设置可扫描的类型，我这里选择了都支持
+            decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
+            decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+            decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
+        }
+        hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
+        // 设置继续的字符编码格式为UTF8
+        // hints.put(DecodeHintType.CHARACTER_SET, "UTF8");
+        // 设置解析配置参数
+        multiFormatReader.setHints(hints);
 
         // 开始对图像资源解码
         Result rawResult = null;
