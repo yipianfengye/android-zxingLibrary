@@ -19,6 +19,8 @@
 
 - compile 2.0 2016/10/12 测试Demo中添加Android M权限处理，代码库添加自定义属性支持小圆点是否展示
 
+- compile 2.1 2016/11/22 修复扫描中的一些bug
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -43,7 +45,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:2.0'
+compile 'cn.yipianfengye.android:zxing-library:2.1'
 ```
 
 - 在demo Application中执行初始化操作
