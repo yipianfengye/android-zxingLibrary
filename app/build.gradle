@@ -25,7 +25,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //compile project(':lib-zxing')
-    compile 'cn.yipianfengye.android:zxing-library:2.0'
+    compile 'cn.yipianfengye.android:zxing-library:2.1'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'pub.devrel:easypermissions:0.2.0'
