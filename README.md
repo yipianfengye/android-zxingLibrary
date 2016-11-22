@@ -45,7 +45,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:2.0'
+compile 'cn.yipianfengye.android:zxing-library:2.1'
 ```
 
 - 在demo Application中执行初始化操作
