@@ -93,7 +93,7 @@ public class CodeUtils {
 
         if (rawResult != null) {
             if (analyzeCallback != null) {
-                analyzeCallback.onAnalyzeSuccess(mBitmap, rawResult.getText());
+                analyzeCallback.onAnalyzeSuccess(rawResult, mBitmap, rawResult.getText());
             }
         } else {
             if (analyzeCallback != null) {
@@ -181,7 +181,7 @@ public class CodeUtils {
      */
     public interface AnalyzeCallback{
 
-        public void onAnalyzeSuccess(Bitmap mBitmap, String result);
+        public void onAnalyzeSuccess(Result result, Bitmap mBitmap, String resultText);
 
         public void onAnalyzeFailed();
     }
