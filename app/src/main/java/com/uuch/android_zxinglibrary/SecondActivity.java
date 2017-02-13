@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.google.zxing.Result;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -55,11 +56,11 @@ public class SecondActivity extends BaseActivity {
      */
     CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
         @Override
-        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+        public void onAnalyzeSuccess(Result result, Bitmap mBitmap, String resultText) {
             Intent resultIntent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
-            bundle.putString(CodeUtils.RESULT_STRING, result);
+            bundle.putString(CodeUtils.RESULT_STRING, resultText);
             resultIntent.putExtras(bundle);
             SecondActivity.this.setResult(RESULT_OK, resultIntent);
             SecondActivity.this.finish();

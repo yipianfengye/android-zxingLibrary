@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.zxing.Result;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -101,8 +102,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 try {
                     CodeUtils.analyzeBitmap(ImageUtil.getImageAbsolutePath(this, uri), new CodeUtils.AnalyzeCallback() {
                         @Override
-                        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-                            Toast.makeText(MainActivity.this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                        public void onAnalyzeSuccess(Result result, Bitmap mBitmap, String resultText) {
+                            Toast.makeText(MainActivity.this, "解析结果:" + resultText, Toast.LENGTH_LONG).show();
                         }
 
                         @Override
