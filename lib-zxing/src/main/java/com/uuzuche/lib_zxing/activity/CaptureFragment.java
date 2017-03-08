@@ -118,7 +118,6 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     public void onDestroy() {
         super.onDestroy();
         inactivityTimer.shutdown();
-        super.onDestroy();
     }
 
 
