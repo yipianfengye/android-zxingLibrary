@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="innerrect">
+    <declare-styleable name="ViewfinderView">
         <attr name="inner_width" format="dimension"/>
         <attr name="inner_height" format="dimension"/>
         <attr name="inner_margintop" format="dimension" />
