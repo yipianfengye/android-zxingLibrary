@@ -147,10 +147,14 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
         try {
             CameraManager.get().openDriver(surfaceHolder);
             camera = CameraManager.get().getCamera();
-        } catch (IOException ioe) {
+        } catch (Exception e) {
+            if (callBack != null) {
+                callBack.callBack(e);
+            }
             return;
-        } catch (RuntimeException e) {
-            return;
+        }
+        if (callBack != null) {
+            callBack.callBack(null);
         }
         if (handler == null) {
             handler = new CaptureActivityHandler(this, decodeFormats, characterSet, viewfinderView);
@@ -249,5 +253,24 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     public void setAnalyzeCallback(CodeUtils.AnalyzeCallback analyzeCallback) {
         this.analyzeCallback = analyzeCallback;
     }
+
+    @Nullable
+    CameraInitCallBack callBack;
+
+    /**
+     * Set callback for Camera check whether Camera init success or not.
+     */
+    public void setCameraInitCallBack(CameraInitCallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    interface CameraInitCallBack {
+        /**
+         * Callback for Camera init result.
+         * @param e If is's null,means success.otherwise Camera init failed with the Exception.
+         */
+        void callBack(Exception e);
+    }
+
 
 }

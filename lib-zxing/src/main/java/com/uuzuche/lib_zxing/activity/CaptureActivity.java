@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.uuzuche.lib_zxing.R;
 
 /**
  * Initial the camera
- *
+ * <p>
  * 默认的二维码扫描Activity
  */
 public class CaptureActivity extends AppCompatActivity {
@@ -23,6 +24,17 @@ public class CaptureActivity extends AppCompatActivity {
         CaptureFragment captureFragment = new CaptureFragment();
         captureFragment.setAnalyzeCallback(analyzeCallback);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_zxing_container, captureFragment).commit();
+        captureFragment.setCameraInitCallBack(new CaptureFragment.CameraInitCallBack() {
+            @Override
+            public void callBack(Exception e) {
+                if (e == null) {
+
+                } else {
+                    Log.e("TAG", "callBack: ", e);
+                }
+            }
+        });
+
     }
 
     /**
