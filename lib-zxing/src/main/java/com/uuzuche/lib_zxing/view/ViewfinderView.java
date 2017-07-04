@@ -24,12 +24,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -56,15 +53,23 @@ public final class ViewfinderView extends View {
     private Collection<ResultPoint> possibleResultPoints;
     private Collection<ResultPoint> lastPossibleResultPoints;
 
-    public ViewfinderView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public ViewfinderView(Context context) {
+        this(context, null);
+    }
 
+    public ViewfinderView(Context context, AttributeSet attrs) {
+        this(context, attrs, -1);
+
+    }
+
+    public ViewfinderView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         paint = new Paint();
         Resources resources = getResources();
         maskColor = resources.getColor(R.color.viewfinder_mask);
         resultColor = resources.getColor(R.color.result_view);
         resultPointColor = resources.getColor(R.color.possible_result_points);
-        possibleResultPoints = new HashSet<ResultPoint>(5);
+        possibleResultPoints = new HashSet<>(5);
 
         scanLight = BitmapFactory.decodeResource(resources,
                 R.drawable.scan_light);
@@ -74,42 +79,43 @@ public final class ViewfinderView extends View {
 
     /**
      * 初始化内部框的大小
+     *
      * @param context
      * @param attrs
      */
     private void initInnerRect(Context context, AttributeSet attrs) {
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.innerrect);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ViewfinderView);
 
         // 扫描框距离顶部
-        float innerMarginTop = ta.getDimension(R.styleable.innerrect_inner_margintop, -1);
+        float innerMarginTop = ta.getDimension(R.styleable.ViewfinderView_inner_margintop, -1);
         if (innerMarginTop != -1) {
             CameraManager.FRAME_MARGINTOP = (int) innerMarginTop;
         }
 
         // 扫描框的宽度
-        CameraManager.FRAME_WIDTH = (int) ta.getDimension(R.styleable.innerrect_inner_width, DisplayUtil.screenWidthPx / 2);
+        CameraManager.FRAME_WIDTH = (int) ta.getDimension(R.styleable.ViewfinderView_inner_width, DisplayUtil.screenWidthPx / 2);
 
         // 扫描框的高度
-        CameraManager.FRAME_HEIGHT = (int) ta.getDimension(R.styleable.innerrect_inner_height, DisplayUtil.screenWidthPx / 2);
+        CameraManager.FRAME_HEIGHT = (int) ta.getDimension(R.styleable.ViewfinderView_inner_height, DisplayUtil.screenWidthPx / 2);
 
         // 扫描框边角颜色
-        innercornercolor = ta.getColor(R.styleable.innerrect_inner_corner_color, Color.parseColor("#45DDDD"));
+        innercornercolor = ta.getColor(R.styleable.ViewfinderView_inner_corner_color, Color.parseColor("#45DDDD"));
         // 扫描框边角长度
-        innercornerlength = (int) ta.getDimension(R.styleable.innerrect_inner_corner_length, 65);
+        innercornerlength = (int) ta.getDimension(R.styleable.ViewfinderView_inner_corner_length, 65);
         // 扫描框边角宽度
-        innercornerwidth = (int) ta.getDimension(R.styleable.innerrect_inner_corner_width, 15);
+        innercornerwidth = (int) ta.getDimension(R.styleable.ViewfinderView_inner_corner_width, 15);
 
         // 扫描bitmap
-        Drawable drawable = ta.getDrawable(R.styleable.innerrect_inner_scan_bitmap);
+        Drawable drawable = ta.getDrawable(R.styleable.ViewfinderView_inner_scan_bitmap);
         if (drawable != null) {
         }
 
         // 扫描控件
-        scanLight = BitmapFactory.decodeResource(getResources(), ta.getResourceId(R.styleable.innerrect_inner_scan_bitmap, R.drawable.scan_light));
+        scanLight = BitmapFactory.decodeResource(getResources(), ta.getResourceId(R.styleable.ViewfinderView_inner_scan_bitmap, R.drawable.scan_light));
         // 扫描速度
-        SCAN_VELOCITY = ta.getInt(R.styleable.innerrect_inner_scan_speed, 5);
+        SCAN_VELOCITY = ta.getInt(R.styleable.ViewfinderView_inner_scan_speed, 5);
 
-        isCircle = ta.getBoolean(R.styleable.innerrect_inner_scan_iscircle, true);
+        isCircle = ta.getBoolean(R.styleable.ViewfinderView_inner_scan_iscircle, true);
 
         ta.recycle();
     }

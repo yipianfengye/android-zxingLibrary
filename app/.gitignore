@@ -1,3 +1,8 @@
-/build
-!/build/outputs/mapping/release/*
+build
 *.iml
+out
+.idea/
+prebuilts
+.DS_Store
+local.properties
+.gradle
