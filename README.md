@@ -21,6 +21,8 @@
 
 - compile 2.1 2016/11/22 修复扫描中的一些bug
 
+- compile 2.2 2017/07/04 更新zxing包，修复一些已知的bug
+
 **使用说明**
 
 - 可打开默认二维码扫描页面
@@ -45,7 +47,7 @@
 - 在module的build.gradle中执行compile操作
 
 ```
-compile 'cn.yipianfengye.android:zxing-library:2.1'
+compile 'cn.yipianfengye.android:zxing-library:2.2'
 ```
 
 - 在demo Application中执行初始化操作
