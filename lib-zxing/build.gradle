@@ -34,7 +34,7 @@ dependencies {
 ext {
     PUBLISH_GROUP_ID = 'cn.yipianfengye.android'
     PUBLISH_ARTIFACT_ID = 'zxing-library'
-    PUBLISH_VERSION = '2.1'
+    PUBLISH_VERSION = '2.2'
 }
 
 apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'

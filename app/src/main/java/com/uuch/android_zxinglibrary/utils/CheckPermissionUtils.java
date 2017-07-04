@@ -19,8 +19,8 @@ public final class CheckPermissionUtils {
     //需要申请的权限
     private static String[] permissions = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
     };
 
     //检测权限
