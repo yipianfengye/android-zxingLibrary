@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.uuch.android_zxinglibrary.utils.CheckPermissionUtils;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -44,9 +46,24 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
          * 初始化组件
          */
         initView();
+        //初始化权限
+        initPermission();
     }
 
-
+    /**
+     * 初始化权限事件
+     */
+    private void initPermission() {
+        //检查权限
+        String[] permissions = CheckPermissionUtils.checkPermission(this);
+        if (permissions.length == 0) {
+            //权限都申请了
+            //是否登录
+        } else {
+            //申请权限
+            ActivityCompat.requestPermissions(this, permissions, 100);
+        }
+    }
     /**
      * 初始化组件
      */
@@ -190,8 +207,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.button2) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, REQUEST_IMAGE);
             } else if (v.getId() == R.id.button4) {
