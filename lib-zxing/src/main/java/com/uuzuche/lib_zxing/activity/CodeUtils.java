@@ -66,7 +66,7 @@ public class CodeUtils {
         MultiFormatReader multiFormatReader = new MultiFormatReader();
 
         // 解码的参数
-        Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(2);
+        Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(3);
         // 可以解析的编码类型
         Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
         if (decodeFormats == null || decodeFormats.isEmpty()) {
@@ -78,8 +78,8 @@ public class CodeUtils {
             decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
         }
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
-        // 设置继续的字符编码格式为UTF8
-        // hints.put(DecodeHintType.CHARACTER_SET, "UTF8");
+        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+        hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
         // 设置解析配置参数
         multiFormatReader.setHints(hints);
 
