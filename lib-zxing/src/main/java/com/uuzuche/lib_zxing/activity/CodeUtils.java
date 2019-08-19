@@ -2,7 +2,6 @@ package com.uuzuche.lib_zxing.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.uuzuche.lib_zxing.decoding.DecodeFormatManager;
 
 import java.util.Hashtable;
-import java.util.Objects;
 import java.util.Vector;
 
 /**
