@@ -3,8 +3,9 @@ package com.uuzuche.lib_zxing.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.uuzuche.lib_zxing.R;
 
