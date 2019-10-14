@@ -2,7 +2,6 @@ package com.uuzuche.lib_zxing.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.uuzuche.lib_zxing.decoding.DecodeFormatManager;
 
 import java.util.Hashtable;
-import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -38,12 +36,12 @@ public class CodeUtils {
     public static final int RESULT_SUCCESS = 1;
     public static final int RESULT_FAILED = 2;
 
-    public static final String LAYOUT_ID = "layout_id";
-
+    static final String LAYOUT_ID = "layout_id";
 
 
     /**
      * 解析二维码图片工具类
+     *
      * @param analyzeCallback
      */
     public static void analyzeBitmap(String path, AnalyzeCallback analyzeCallback) {
@@ -53,7 +51,6 @@ public class CodeUtils {
          */
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true; // 先获取原大小
-        Bitmap mBitmap = BitmapFactory.decodeFile(path, options);
         options.inJustDecodeBounds = false; // 获取新的大小
 
         int sampleSize = (int) (options.outHeight / (float) 400);
@@ -61,25 +58,25 @@ public class CodeUtils {
         if (sampleSize <= 0)
             sampleSize = 1;
         options.inSampleSize = sampleSize;
-        mBitmap = BitmapFactory.decodeFile(path, options);
+        Bitmap mBitmap = BitmapFactory.decodeFile(path, options);
+        analyzeBitmap(mBitmap, analyzeCallback);
+    }
+
+    public static void analyzeBitmap(Bitmap mBitmap, AnalyzeCallback analyzeCallback) {
 
         MultiFormatReader multiFormatReader = new MultiFormatReader();
 
         // 解码的参数
-        Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(2);
+        Hashtable<DecodeHintType, Object> hints = new Hashtable<>(2);
         // 可以解析的编码类型
-        Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
-        if (decodeFormats == null || decodeFormats.isEmpty()) {
-            decodeFormats = new Vector<BarcodeFormat>();
+        Vector<BarcodeFormat> decodeFormats;
+        decodeFormats = new Vector<>();
 
-            // 这里设置可扫描的类型，我这里选择了都支持
-            decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
-            decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
-            decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
-        }
+        // 这里设置可扫描的类型，我这里选择了都支持
+        decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
+        decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+        decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
-        // 设置继续的字符编码格式为UTF8
-        // hints.put(DecodeHintType.CHARACTER_SET, "UTF8");
         // 设置解析配置参数
         multiFormatReader.setHints(hints);
 
@@ -104,18 +101,19 @@ public class CodeUtils {
 
     /**
      * 生成二维码图片
+     *
      * @param text
      * @param w
      * @param h
      * @param logo
      * @return
      */
-    public static Bitmap createImage(String text,int w,int h,Bitmap logo) {
+    public static Bitmap createImage(String text, int w, int h, Bitmap logo) {
         if (TextUtils.isEmpty(text)) {
             return null;
         }
         try {
-            Bitmap scaleLogo = getScaleLogo(logo,w,h);
+            Bitmap scaleLogo = getScaleLogo(logo, w, h);
 
             int offsetX = w / 2;
             int offsetY = h / 2;
@@ -138,17 +136,17 @@ public class CodeUtils {
             int[] pixels = new int[w * h];
             for (int y = 0; y < h; y++) {
                 for (int x = 0; x < w; x++) {
-                    if(x >= offsetX && x < offsetX + scaleWidth && y>= offsetY && y < offsetY + scaleHeight){
-                        int pixel = scaleLogo.getPixel(x-offsetX,y-offsetY);
-                        if(pixel == 0){
-                            if(bitMatrix.get(x, y)){
+                    if (x >= offsetX && x < offsetX + scaleWidth && y >= offsetY && y < offsetY + scaleHeight) {
+                        int pixel = scaleLogo.getPixel(x - offsetX, y - offsetY);
+                        if (pixel == 0) {
+                            if (bitMatrix.get(x, y)) {
                                 pixel = 0xff000000;
-                            }else{
+                            } else {
                                 pixel = 0xffffffff;
                             }
                         }
                         pixels[y * w + x] = pixel;
-                    }else{
+                    } else {
                         if (bitMatrix.get(x, y)) {
                             pixels[y * w + x] = 0xff000000;
                         } else {
@@ -167,19 +165,20 @@ public class CodeUtils {
         return null;
     }
 
-    private static Bitmap getScaleLogo(Bitmap logo,int w,int h){
-        if(logo == null)return null;
+    private static Bitmap getScaleLogo(Bitmap logo, int w, int h) {
+        if (logo == null) {
+            return null;
+        }
         Matrix matrix = new Matrix();
-        float scaleFactor = Math.min(w * 1.0f / 5 / logo.getWidth(), h * 1.0f / 5 /logo.getHeight());
-        matrix.postScale(scaleFactor,scaleFactor);
-        Bitmap result = Bitmap.createBitmap(logo, 0, 0, logo.getWidth(),   logo.getHeight(), matrix, true);
-        return result;
+        float scaleFactor = Math.min(w * 1.0f / 5 / logo.getWidth(), h * 1.0f / 5 / logo.getHeight());
+        matrix.postScale(scaleFactor, scaleFactor);
+        return Bitmap.createBitmap(logo, 0, 0, logo.getWidth(), logo.getHeight(), matrix, true);
     }
 
     /**
      * 解析二维码结果
      */
-    public interface AnalyzeCallback{
+    public interface AnalyzeCallback {
 
         public void onAnalyzeSuccess(Bitmap mBitmap, String result);
 
@@ -189,6 +188,7 @@ public class CodeUtils {
 
     /**
      * 为CaptureFragment设置layout参数
+     *
      * @param captureFragment
      * @param layoutId
      */
