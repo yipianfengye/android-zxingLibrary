@@ -1,10 +1,12 @@
 package com.uuzuche.lib_zxing.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.uuzuche.lib_zxing.R;
 
@@ -15,26 +17,23 @@ import com.uuzuche.lib_zxing.R;
  */
 public class CaptureActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera);
+        startScanView();
+    }
+
+    private void startScanView() {
         CaptureFragment captureFragment = new CaptureFragment();
         captureFragment.setAnalyzeCallback(analyzeCallback);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_zxing_container, captureFragment).commit();
-        captureFragment.setCameraInitCallBack(new CaptureFragment.CameraInitCallBack() {
-            @Override
-            public void callBack(Exception e) {
-                if (e == null) {
+    }
 
-                } else {
-                    Log.e("TAG", "callBack: ", e);
-                }
-            }
-        });
-
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        startScanView();
     }
 
     /**

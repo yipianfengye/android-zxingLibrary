@@ -203,8 +203,7 @@ public final class ViewfinderView extends View {
         } else {
             scanLineTop += SCAN_VELOCITY;
         }
-        Rect scanRect = new Rect(frame.left, scanLineTop, frame.right,
-                scanLineTop + 30);
+        Rect scanRect = new Rect(frame.left, scanLineTop, frame.right, scanLineTop + 30);
         canvas.drawBitmap(scanLight, null, scanRect, paint);
     }
 

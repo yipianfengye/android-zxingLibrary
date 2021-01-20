@@ -8,14 +8,15 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -95,7 +96,7 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
         decodeFormats = null;
         characterSet = null;
 
-        playBeep = true;
+        playBeep = getActivity().getIntent().getBooleanExtra("playBeep", true);
         AudioManager audioService = (AudioManager) getActivity().getSystemService(getActivity().AUDIO_SERVICE);
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
             playBeep = false;

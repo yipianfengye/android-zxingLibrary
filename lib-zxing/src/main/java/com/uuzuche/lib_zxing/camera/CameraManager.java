@@ -25,6 +25,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+
 import java.io.IOException;
 
 /**
@@ -60,7 +62,6 @@ public final class CameraManager {
     private Camera camera;
     private Rect framingRect;
     private Rect framingRectInPreview;
-    private boolean initialized;
     private boolean previewing;
     private final boolean useOneShotPreviewCallback;
     /**
@@ -79,9 +80,10 @@ public final class CameraManager {
      * @param context The Activity which wants to use the camera.
      */
     public static void init(Context context) {
-        if (cameraManager == null) {
-            cameraManager = new CameraManager(context);
-        }
+        if (cameraManager != null)
+            cameraManager.stopPreview();
+        ZXingLibrary.initDisplayOpinion(context);
+        cameraManager = new CameraManager(context);
     }
 
     /**
@@ -123,10 +125,7 @@ public final class CameraManager {
             }
             camera.setPreviewDisplay(holder);
 
-            if (!initialized) {
-                initialized = true;
-                configManager.initFromCameraParameters(camera);
-            }
+            configManager.initFromCameraParameters(camera);
             configManager.setDesiredCameraParameters(camera);
 
             //FIXME
