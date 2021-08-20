@@ -9,7 +9,7 @@
         android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="简单模式,加载默认二维码扫描界面"
+        android:text="加载默认二维码扫描界面"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
